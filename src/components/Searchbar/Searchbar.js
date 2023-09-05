@@ -1,6 +1,7 @@
-import { Panel, SearchForm, StyledInput } from "./Searchbar.styled"
+import { Panel, SearchForm, StyledInput, SubmitBtn } from "./Searchbar.styled";
+import { ImSearch } from "react-icons/im";
 
-export const Searchbar = ({search, onChange, onSubmit})=>{
+export const Searchbar = ({search, onChange, onSubmit, num})=>{
    return (
       <Panel>
          <SearchForm  onSubmit={onSubmit}>
@@ -9,7 +10,11 @@ export const Searchbar = ({search, onChange, onSubmit})=>{
                name="search"
                required
                autoFocus/>
+               <SubmitBtn type="submit">
+                  <ImSearch />
+               </SubmitBtn>
          </SearchForm>
+         <span>{num}</span>
       </Panel>
    )
 }
