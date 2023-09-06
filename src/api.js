@@ -14,14 +14,13 @@ const configAx = {
     image_type: 'photo',
     orientation: 'horizontal',
     safesearch: true,
-    // per_page: imgNumber,
+    per_page: 12,
   },
 };
 
-async function serviceGetImages({searchString, page, perPage}) {
+async function serviceGetImages({searchString, page}) {
   configAx.params.q = searchString;
   configAx.params.page = page;
-  configAx.params.per_page = perPage;
   const { data } = await axios('', configAx);
   return data.hits;
 }

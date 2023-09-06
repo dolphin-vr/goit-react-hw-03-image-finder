@@ -17,31 +17,12 @@ export class App extends Component {
       perPage: 12,
       timeStamp: null,
     },
-    imgSizes: {
-      imgHeight: 260,
-      imgWidth: 320,
-    },
     loader: false,
     error: false,
     errorObj: '',
   }
-  componentDidMount(){
-    const numByVert = ~~((window.innerHeight - 80) / 276);
-    const imgHeight = ~~((window.innerHeight - 96 -  ((numByVert - 1) * 16)) / numByVert);
-    const numByHoriz = ~~((window.innerWidth - 32) /(imgHeight + 16));
-    const imgWidth = Math.round(imgHeight * 1.2308);
-    const imgNumber = numByHoriz * numByVert;
-    console.log('viewport= ', window.innerWidth, window.innerHeight);
-    console.log('Wn x Hn = ', numByHoriz, ' x ', numByVert);
-    console.log("img H * W= ", imgWidth, " x ", imgHeight);
-    this.setState(({query: { perPage: imgNumber}, imgSizes: {imgHeight, imgWidth}}))
-    // if (prevState.query.perPage !== imgNumber){
-    //   this.setState(prevState=>({query: {...prevState.query, perPage: imgNumber, imgSizes: {imgHeight, imgWidth}}}))
-    // }
-  }
 
   async componentDidUpdate(prevProps, prevState){
-
     if (prevState.query.timeStamp !== this.state.query.timeStamp || prevState.query.page !== this.state.query.page){
       try {
         this.setState({loader: true, error: false});
@@ -49,10 +30,12 @@ export class App extends Component {
         this.setState(prevState=>({gallery: [...prevState.gallery, ...gallery]}))
       } catch (error) {
         this.setState({ error: true, errorObj: error });
-        // console.log("error= ", error)
       } finally {
         this.setState({ loader: false });        
       }
+    }
+    if (prevState.gallery !== this.state.gallery && this.state.query.page !== 1){
+      this.scrollUp()
     }
   }
   
@@ -62,36 +45,36 @@ export class App extends Component {
   
   handleSubmit = (ev) =>{
     ev.preventDefault();
-    this.setState({query: {searchString: ev.target.search.value, page: 10, timeStamp: Date.now()},
+    this.setState({query: {searchString: ev.target.search.value, page: 1, timeStamp: Date.now()},
     gallery: [],});
   }
 
   handleLoadMore = () =>{
-    this.setState(prevState=>({query: {...prevState.query, page: prevState.query.page + 1}}))
+    this.setState(prevState=>({query: {...prevState.query, page: prevState.query.page + 1}}));
   }
 
-  // function goTopPage() {
-  //   if (document.body.scrollTop > 0 || document.documentElement.scrollTop > 0) {
-  //     window.scrollBy(0, -50);
-  //     setTimeout(goTopPage, 5);
-  //   }
-  // }
+  scrollUp(){
+    const height = window.innerHeight / 18;
+    console.log(window.innerHeight, height)
+    function scr(){
+      window.scrollBy(0, height)
+    }
+    for (let i = 1; i < 19; i++) {
+      const delay = i*50;
+      setTimeout(scr, delay);
+    }
+  }
 
   render (){
-    // console.log("this.state.error= ", this.state.error);
     const showGallery = (this.state.gallery.length>0);
-    if (this.state.error) {
-      // const errMsg = this.state.errorObj.response.data;
-      // console.log("err msg = ", errMsg);
-      // console.log('typeof = ', typeof errMsg);
-    }
     const showEndGallery = this.state.error && this.state.errorObj.response.data.includes('page');
     const showBtnMore = !showEndGallery && showGallery;
     const showError = this.state.error && !showEndGallery;
+    
     return(
       <Layout>
         <Searchbar search={this.state.query.searchString} onChange={this.handleChange} onSubmit={this.handleSubmit} num={this.state.gallery.length}/>
-        {showGallery && <ImageGallery gallery={this.state.gallery} sizes={this.state.imgSizes}/>}
+        {showGallery && <ImageGallery gallery={this.state.gallery} />}
         {this.state.loader && <Loader />}
         {showBtnMore && <Button onClick={this.handleLoadMore} />}        
         {showEndGallery && <EndGallery />}
