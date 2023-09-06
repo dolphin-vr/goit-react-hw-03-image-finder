@@ -10,6 +10,7 @@ export const Panel = styled.div`
   justify-content: center;
   align-items: center;
   min-height: 64px;
+  margin-bottom: 8px;
   padding-right: 24px;
   padding-left: 24px;
   padding-top: 12px;
@@ -21,16 +22,31 @@ export const Panel = styled.div`
 `
 
 export const SearchForm = styled.form`
-width: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: calc(100% / 3);
 `
 
 export const StyledInput = styled.input`
-   display: inline-block;
-   width: calc(100% / 3);
-   font: inherit;
-   font-size: 20px;
-   border: none;
-   outline: none;
-   padding-left: 4px;
-   padding-right: 4px;
-  `
+  width: 100%;
+  display: inline-block;
+  font: inherit;
+  font-size: 20px;
+  border: none;
+  outline: none;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 4px;
+  padding-right: 4px;
+`
+
+ export const SubmitBtn = styled.button`
+    position: absolute;
+    /* top: 0; */
+    right: 0;
+  display: flex;
+  align-items: center;
+    background-color: transparent;
+    border: none;
+ `

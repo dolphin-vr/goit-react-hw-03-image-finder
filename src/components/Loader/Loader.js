@@ -1,5 +1,7 @@
+import { SquareLoader } from "react-spinners"
+
 export const Loader = ()=>{
    return(
-      <p>Loading...</p>
+      <SquareLoader color="#36d7b7" />
    )
 }
