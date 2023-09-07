@@ -1,7 +1,7 @@
 import { Panel, SearchForm, StyledInput, SubmitBtn } from "./Searchbar.styled";
 import { ImSearch } from "react-icons/im";
 
-export const Searchbar = ({search, onChange, onSubmit, num})=>{
+export const Searchbar = ({search, onChange, onSubmit})=>{
    return (
       <Panel>
          <SearchForm  onSubmit={onSubmit}>

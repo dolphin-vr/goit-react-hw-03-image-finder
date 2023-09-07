@@ -16,6 +16,7 @@ export class App extends Component {
       searchString: '',
       page: 1,
       perPage: 12,
+      totalHits: 0,
       timeStamp: null,
     },
     loader: false,
@@ -29,8 +30,8 @@ export class App extends Component {
     if (prevState.query.timeStamp !== this.state.query.timeStamp || prevState.query.page !== this.state.query.page){
       try {
         this.setState({loader: true, error: false});
-        const gallery = await serviceGetImages(this.state.query);
-        this.setState(prevState=>({gallery: [...prevState.gallery, ...gallery]}))
+        const responce = await serviceGetImages(this.state.query);
+        this.setState(prevState=>({gallery: [...prevState.gallery, ...responce.hits], query: {...prevState.query, totalHits: responce.totalHits}}))
       } catch (error) {
         this.setState({ error: true, errorObj: error });
       } finally {
@@ -48,8 +49,8 @@ export class App extends Component {
   
   handleSubmit = (ev) =>{
     ev.preventDefault();
-    this.setState({query: {searchString: ev.target.search.value, page: 1, timeStamp: Date.now()},
-    gallery: [],});
+    this.setState(prevState=>({query: {...prevState.query, searchString: ev.target.search.value, page: 1, timeStamp: Date.now()},
+    gallery: [],}));
   }
 
   handleLoadMore = () =>{
@@ -78,24 +79,22 @@ export class App extends Component {
   }
 
   render (){
-    const { loader, error, showModal, bigImgUrl } = this.state;
+    const { loader, error, showModal, bigImgUrl, query: {page, perPage, totalHits} } = this.state;
     const showGallery = (this.state.gallery.length>0);
-    const showEndGallery = this.state.error && this.state.errorObj.response.data.includes('page');
+    const showEndGallery = ((totalHits / perPage) < page);
     const showBtnMore = !showEndGallery && showGallery;
     const showError = error && !showEndGallery;
     
     return(
       <Layout>
         <Searchbar search={this.state.query.searchString} onChange={this.handleChange} onSubmit={this.handleSubmit} />
-        {(!showGallery && this.state.query.timeStamp) && <ErrorMsg>Sorry, but nothing was found for your query. Try changing the request.</ErrorMsg>}
         {showGallery && <ImageGallery gallery={this.state.gallery} onClick={this.handleImgClick}/>}
         {loader && <Loader />}
         {showBtnMore && <Button onClick={this.handleLoadMore} />}        
-        {showEndGallery && <EndGallery />}
+        {showEndGallery && totalHits && <EndGallery />}
+        {(!loader && !showGallery && this.state.query.timeStamp) && <ErrorMsg>Sorry, but nothing was found for your query. Try changing the request.</ErrorMsg>}
         {showError && <ErrorMsg>Sorry, something went wrong. Try reload page</ErrorMsg>}
-        {showModal && <Modal onClose={this.toggleModal} >          
-          <img src={bigImgUrl} alt='zoomed' />
-        </Modal>}
+        {showModal && <Modal onClose={this.toggleModal} ><img src={bigImgUrl} alt='zoomed' /></Modal>}
         <GlobalStyle />
       </Layout>
     )
