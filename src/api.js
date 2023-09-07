@@ -21,7 +21,7 @@ async function serviceGetImages({searchString, page}) {
   configAx.params.q = searchString;
   configAx.params.page = page;
   const { data } = await axios('', configAx);
-  return data.hits;
+  return data;
 }
 
 export { serviceGetImages };
