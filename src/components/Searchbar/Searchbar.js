@@ -14,7 +14,6 @@ export const Searchbar = ({search, onChange, onSubmit, num})=>{
                   <ImSearch />
                </SubmitBtn>
          </SearchForm>
-         <span>{num}</span>
       </Panel>
    )
 }

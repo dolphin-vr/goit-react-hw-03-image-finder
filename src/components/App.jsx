@@ -1,12 +1,13 @@
 import { Component } from "react";
 import { Searchbar } from "./Searchbar/Searchbar";
 import { serviceGetImages } from "api";
-import { Layout } from "./Layout";
+import { ErrorMsg, Layout } from "./Layout";
 import { GlobalStyle } from "./GlobalStyle";
 import { Loader } from "./Loader/Loader";
 import { ImageGallery } from "./ImageGallery/ImageGallery";
 import { Button } from "./Button/Button";
 import {EndGallery} from "./EndGallery/EndGallery"
+import Modal from "./Modal/Modal";
 
 export class App extends Component {
   state = {
@@ -20,6 +21,8 @@ export class App extends Component {
     loader: false,
     error: false,
     errorObj: '',
+    showModal: false,
+    bigImgUrl: '',
   }
 
   async componentDidUpdate(prevProps, prevState){
@@ -54,8 +57,7 @@ export class App extends Component {
   }
 
   scrollUp(){
-    const height = window.innerHeight / 18;
-    console.log(window.innerHeight, height)
+    const height = (window.innerHeight - 128) / 18;
     function scr(){
       window.scrollBy(0, height)
     }
@@ -65,20 +67,32 @@ export class App extends Component {
     }
   }
 
+  toggleModal = () => {
+    this.setState(({ showModal }) => ({
+      showModal: !showModal,
+    }));
+  };
+
+  handleImgClick = (bigImgUrl) =>{
+    this.setState({bigImgUrl, showModal: true})
+  }
+
   render (){
+    const { loader, error, showModal, bigImgUrl } = this.state;
     const showGallery = (this.state.gallery.length>0);
     const showEndGallery = this.state.error && this.state.errorObj.response.data.includes('page');
     const showBtnMore = !showEndGallery && showGallery;
-    const showError = this.state.error && !showEndGallery;
+    const showError = error && !showEndGallery;
     
     return(
       <Layout>
-        <Searchbar search={this.state.query.searchString} onChange={this.handleChange} onSubmit={this.handleSubmit} num={this.state.gallery.length}/>
-        {showGallery && <ImageGallery gallery={this.state.gallery} />}
-        {this.state.loader && <Loader />}
+        <Searchbar search={this.state.query.searchString} onChange={this.handleChange} onSubmit={this.handleSubmit} />
+        {showGallery && <ImageGallery gallery={this.state.gallery} onClick={this.handleImgClick}/>}
+        {loader && <Loader />}
         {showBtnMore && <Button onClick={this.handleLoadMore} />}        
         {showEndGallery && <EndGallery />}
-        {showError && <div>Sorry, something went wrong. Try reload page</div>}
+        {showError && <ErrorMsg>Sorry, something went wrong. Try reload page</ErrorMsg>}
+        {showModal && <Modal  url={bigImgUrl} onClose={this.toggleModal} />}
         <GlobalStyle />
       </Layout>
     )

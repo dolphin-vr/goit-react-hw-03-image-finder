@@ -1,5 +1,4 @@
-import styled from "styled-components";
-
+import styled from 'styled-components';
 
 export const Panel = styled.div`
   top: 0;
@@ -9,24 +8,24 @@ export const Panel = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 64px;
-  margin-bottom: 8px;
-  padding-right: 24px;
+  min-height: ${({ theme }) => theme.spacing(16)};
+  margin-bottom: ${({ theme }) => theme.spacing(2)};
+  /* padding-right: 24px;
   padding-left: 24px;
   padding-top: 12px;
-  padding-bottom: 12px;
+  padding-bottom: 12px; */
   color: #fff;
-  background-color: #3f51b5;
+  background-color: ${({ theme }) => theme.colors.green};
   box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2),
     0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
-`
+`;
 
 export const SearchForm = styled.form`
   position: relative;
   display: flex;
   align-items: center;
   width: calc(100% / 3);
-`
+`;
 
 export const StyledInput = styled.input`
   width: 100%;
@@ -37,16 +36,14 @@ export const StyledInput = styled.input`
   outline: none;
   margin-left: auto;
   margin-right: auto;
-  padding-left: 4px;
-  padding-right: 4px;
-`
+  padding: ${({ theme }) => theme.spacing(1)};
+`;
 
- export const SubmitBtn = styled.button`
-    position: absolute;
-    /* top: 0; */
-    right: 0;
+export const SubmitBtn = styled.button`
+  position: absolute;
+  right: 0;
   display: flex;
   align-items: center;
-    background-color: transparent;
-    border: none;
- `
+  background-color: transparent;
+  border: none;
+`;
