@@ -1,7 +1,10 @@
-import { SquareLoader } from "react-spinners"
+import { SquareLoader } from 'react-spinners';
+import { Wrapper } from './Loader.styled';
 
-export const Loader = ()=>{
-   return(
-      <SquareLoader color="#36d7b7" />
-   )
-}
+export const Loader = () => {
+  return (
+    <Wrapper>
+      <SquareLoader color={({ theme }) => theme.colors.green} />
+    </Wrapper>
+  );
+};

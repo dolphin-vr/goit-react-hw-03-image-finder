@@ -2,15 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { ThemeProvider } from 'styled-components';
 import { App } from 'components/App';
-// Supersale2023
-// PRAY_FOR_UKRAINE
+
+
 const theme = {
   colors: {
     background: "#efefef",
     white: '#fff',
-    red: '#ff0000',
-    green: '#00bb00',
-    blue: "#3f51b5",
+    green: '#3cb371',
+    grey: "rgba(128, 128, 128, 0.3)",
+    blue: "#3cb371",
   },
   radii: {
     sm: '4px',

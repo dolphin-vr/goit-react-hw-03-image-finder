@@ -1,5 +1,4 @@
-import styled from "styled-components";
-
+import styled from 'styled-components';
 
 export const Panel = styled.div`
   top: 0;
@@ -9,22 +8,14 @@ export const Panel = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 32px;
-  /* margin-top: 8px; */
-  padding-right: 24px;
-  padding-left: 24px;
-  padding-top: 12px;
-  padding-bottom: 12px;
-  color: #fff;
-  background-color: transparent;
-  /* box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2),
-    0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12); */
-`
+  min-height: ${({ theme }) => theme.spacing(12)};
+  margin-top: ${({ theme }) => theme.spacing(2)};
+  color: ${({ theme }) => theme.colors.white};
+  background-color: ${({ theme }) => theme.colors.green};
+`;
 
 export const Msg = styled.p`
-margin: 0;
-   font-size: 20px;
-   font-weight: 500;
-   color: black;
-/* width: calc(100% / 3); */
-`
+  margin: 0;
+  font-size: 20px;
+  font-weight: 500;
+`;
