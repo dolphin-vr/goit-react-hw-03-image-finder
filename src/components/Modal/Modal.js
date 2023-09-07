@@ -29,8 +29,8 @@ export default class Modal extends Component {
     return createPortal(
       <BackDrop onClick={this.handleBackdropClick}>
         <Content>
-          <img src={this.props.url} alt='zoomed' />
           <CloseBtn type='button' onClick={this.props.onClose}><Icon/></CloseBtn>
+          {this.props.children}
         </Content>
       </BackDrop>,
       modalRoot

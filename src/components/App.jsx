@@ -87,12 +87,15 @@ export class App extends Component {
     return(
       <Layout>
         <Searchbar search={this.state.query.searchString} onChange={this.handleChange} onSubmit={this.handleSubmit} />
+        {(!showGallery && this.state.query.timeStamp) && <ErrorMsg>Sorry, but nothing was found for your query. Try changing the request.</ErrorMsg>}
         {showGallery && <ImageGallery gallery={this.state.gallery} onClick={this.handleImgClick}/>}
         {loader && <Loader />}
         {showBtnMore && <Button onClick={this.handleLoadMore} />}        
         {showEndGallery && <EndGallery />}
         {showError && <ErrorMsg>Sorry, something went wrong. Try reload page</ErrorMsg>}
-        {showModal && <Modal  url={bigImgUrl} onClose={this.toggleModal} />}
+        {showModal && <Modal onClose={this.toggleModal} >          
+          <img src={bigImgUrl} alt='zoomed' />
+        </Modal>}
         <GlobalStyle />
       </Layout>
     )

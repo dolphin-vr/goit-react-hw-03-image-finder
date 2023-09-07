@@ -10,10 +10,6 @@ export const Panel = styled.div`
   align-items: center;
   min-height: ${({ theme }) => theme.spacing(16)};
   margin-bottom: ${({ theme }) => theme.spacing(2)};
-  /* padding-right: 24px;
-  padding-left: 24px;
-  padding-top: 12px;
-  padding-bottom: 12px; */
   color: #fff;
   background-color: ${({ theme }) => theme.colors.green};
   box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2),
@@ -37,6 +33,7 @@ export const StyledInput = styled.input`
   margin-left: auto;
   margin-right: auto;
   padding: ${({ theme }) => theme.spacing(1)};
+  padding-right: ${({ theme }) => theme.spacing(7)};
 `;
 
 export const SubmitBtn = styled.button`
@@ -45,5 +42,6 @@ export const SubmitBtn = styled.button`
   display: flex;
   align-items: center;
   background-color: transparent;
+    /* background-color: ${({ theme }) => theme.colors.grey}; */
   border: none;
 `;
